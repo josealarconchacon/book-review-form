@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Book } from './book';
 
 @Component({
   selector: 'app-books',
@@ -8,12 +9,12 @@ import { Component } from '@angular/core';
 export class BooksComponent {
   pageTitle: string = 'Book List';
 
-  setImageWidth: number = 50;
+  setImageWidth: number = 30;
   setImageMargin: number = 2;
   showImage: boolean = false;
   listFilter: string = '';
 
-  books: any[] = [
+  books: Book[] = [
     {
       bookId: 2,
       bookName: 'The Metamorphosis',
