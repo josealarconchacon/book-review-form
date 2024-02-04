@@ -7,6 +7,7 @@ import { SharedComponent } from './shared/shared.component';
 import { BooksComponent } from './books/books.component';
 import { FormsModule } from '@angular/forms';
 import { SetToSpacesPipe } from './shared/set-to-spaces.pipe';
+import { ReviewComponent } from './shared/review.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { SetToSpacesPipe } from './shared/set-to-spaces.pipe';
     SharedComponent,
     BooksComponent,
     SetToSpacesPipe,
+    ReviewComponent,
   ],
   imports: [BrowserModule, FormsModule],
   providers: [],
