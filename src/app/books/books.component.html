@@ -49,7 +49,7 @@
               />
             </td>
             <td>{{ book.bookName }}</td>
-            <td>{{ book.boobCode | lowercase }}</td>
+            <td>{{ book.boobCode | lowercase | setToSpaces : "-" }}</td>
             <td>{{ book.releaseDate | date }}</td>
             <td>{{ book.price | currency : "USD" : "symbol" : "1.2-2" }}</td>
             <td>{{ book.rating }}</td>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Book } from './book';
 
 @Component({
@@ -6,7 +6,7 @@ import { Book } from './book';
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css'],
 })
-export class BooksComponent {
+export class BooksComponent implements OnInit {
   pageTitle: string = 'Book List';
 
   setImageWidth: number = 30;
@@ -38,6 +38,10 @@ export class BooksComponent {
       imageUrl: '../../assets/images/madameBovary.jpeg',
     },
   ];
+
+  ngOnInit(): void {
+    console.log(this.books);
+  }
 
   toggleBookImage(): void {
     this.showImage = !this.showImage;
