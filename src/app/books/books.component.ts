@@ -9,10 +9,22 @@ import { Book } from './book';
 export class BooksComponent implements OnInit {
   pageTitle: string = 'Book List';
 
+  // properties
   setImageWidth: number = 30;
   setImageMargin: number = 2;
   showImage: boolean = false;
-  listFilter: string = '';
+  showFilterBooks: Book[] = [];
+
+  // setter and getter
+  private _listFilter: string = '';
+  get listFilter(): string {
+    return this._listFilter;
+  }
+  set listFilter(value: string) {
+    this._listFilter = value;
+    console.log(`value is: ${value}`);
+    this.showFilterBooks = this.performFilterForBooks(value);
+  }
 
   books: Book[] = [
     {
@@ -40,10 +52,17 @@ export class BooksComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    console.log(this.books);
+    this.listFilter = 'The Metamorphosis';
   }
 
   toggleBookImage(): void {
     this.showImage = !this.showImage;
+  }
+
+  performFilterForBooks(filterBy: string): Book[] {
+    filterBy = filterBy.toLowerCase();
+    return this.books.filter((book: Book) =>
+      book.bookName.toLowerCase().includes(filterBy)
+    );
   }
 }
