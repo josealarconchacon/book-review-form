@@ -11,6 +11,7 @@ import { SetToSpacesPipe } from './shared/set-to-spaces.pipe';
 import { ReviewComponent } from './shared/review.component';
 import { BookDetailComponent } from './books/book-detail.component';
 import { RouterModule } from '@angular/router';
+import { bookDetailGuard } from './books/book-detail.guard';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,11 @@ import { RouterModule } from '@angular/router';
     HttpClientModule,
     RouterModule.forRoot([
       { path: 'books', component: BooksComponent },
-      { path: 'books/:id', component: BookDetailComponent },
+      {
+        path: 'books/:id',
+        canActivate: [bookDetailGuard],
+        component: BookDetailComponent,
+      },
       { path: 'home', component: HomeComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: '**', redirectTo: 'home', pathMatch: 'full' },
