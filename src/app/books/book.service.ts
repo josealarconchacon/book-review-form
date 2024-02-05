@@ -1,35 +1,36 @@
 import { Injectable } from '@angular/core';
 import { Book } from './book';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, catchError, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookService {
-  // return list of books
-  getBooks(): Book[] {
-    return [
-      {
-        bookId: 2,
-        bookName: 'The Metamorphosis',
-        boobCode: 'GTR-0098',
-        releaseDate: 'June 22, 2000',
-        description:
-          'For use in schools and libraries only. Writings by and about Kafka and textual notes accompany his translations of his early 20th-century work.',
-        price: 19.0,
-        rating: 3.9,
-        imageUrl: '../../assets/images/theMetamorphosis.jpeg',
-      },
-      {
-        bookId: 3,
-        bookName: 'Madame Bovary',
-        boobCode: 'TRR-012',
-        releaseDate: 'December 1, 2019',
-        description:
-          'Madame Bovary, originally published as Madame Bovary: Provincial Manners, is a novel by French writer Gustave Flaubert, published in 1857. The eponymous character lives beyond her means in order to escape the banalities and emptiness of provincial life.',
-        price: 21.99,
-        rating: 4.1,
-        imageUrl: '../../assets/images/madameBovary.jpeg',
-      },
-    ];
+  private booksUrl = 'api/books/books.json';
+
+  constructor(private http: HttpClient) {}
+
+  // returns an Observable of type Book[]
+  // Angular HttpClient to make a GET request to booksUrl and process the response using the pipe method
+  getBooks(): Observable<Book[]> {
+    return this.http.get<Book[]>(this.booksUrl).pipe(
+      tap((data) => console.log('All', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    let showErrorMessage: string = '';
+    // checks if the error is an instance of ErrorEvent
+    if (error.error instanceof ErrorEvent) {
+      showErrorMessage = `An error occurred: ${error.error.message}`;
+    } else {
+      // otherwise, constructs an error message based on the status and message of the HttpErrorResponse.
+      showErrorMessage = `Backend returned code ${error.status}: message ${error.message}`;
+    }
+    console.log(showErrorMessage);
+    // returns an Observable that emits an error using the throwError function passing a new Error object
+    return throwError(() => new Error(showErrorMessage));
   }
 }
