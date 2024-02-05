@@ -65,4 +65,8 @@ export class BooksComponent implements OnInit {
       book.bookName.toLowerCase().includes(filterBy)
     );
   }
+
+  onReviewClicked(message: string): void {
+    this.pageTitle = 'Rating : ' + message;
+  }
 }

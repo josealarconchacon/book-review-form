@@ -51,7 +51,12 @@
             <td>{{ book.boobCode | lowercase | setToSpaces : "-" }}</td>
             <td>{{ book.releaseDate | date }}</td>
             <td>{{ book.price | currency : "USD" : "symbol" : "1.2-2" }}</td>
-            <td><app-review [rating]="book.rating"></app-review></td>
+            <td>
+              <app-review
+                [rating]="book.rating"
+                (reviewOnClicked)="onReviewClicked($event)"
+              ></app-review>
+            </td>
           </tr>
         </tbody>
       </table>
