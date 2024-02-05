@@ -9,6 +9,8 @@ import { BooksComponent } from './books/books.component';
 import { FormsModule } from '@angular/forms';
 import { SetToSpacesPipe } from './shared/set-to-spaces.pipe';
 import { ReviewComponent } from './shared/review.component';
+import { BookDetailComponent } from './books/book-detail.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -18,8 +20,20 @@ import { ReviewComponent } from './shared/review.component';
     BooksComponent,
     SetToSpacesPipe,
     ReviewComponent,
+    BookDetailComponent,
   ],
-  imports: [BrowserModule, FormsModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    RouterModule.forRoot([
+      { path: 'books', component: BooksComponent },
+      { path: 'books/:id', component: BookDetailComponent },
+      { path: 'home', component: HomeComponent },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: '**', redirectTo: 'home', pathMatch: 'full' },
+    ]),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
