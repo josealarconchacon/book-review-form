@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Book } from './book';
 import { BookService } from './book.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-books',
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css'],
 })
-export class BooksComponent implements OnInit {
+export class BooksComponent implements OnInit, OnDestroy {
   pageTitle: string = 'Book List';
 
   // properties
@@ -15,6 +16,7 @@ export class BooksComponent implements OnInit {
   setImageMargin: number = 2;
   showImage: boolean = false;
   showErrorMessage: string = '';
+  subscription: Subscription | undefined;
   showFilterBooks: Book[] = [];
   books: Book[] = [];
 
@@ -33,13 +35,17 @@ export class BooksComponent implements OnInit {
 
   ngOnInit(): void {
     // getBooks method from the bookService to retrieve a list of books and subscribe to handle the response from the getBooks
-    this.bookService.getBooks().subscribe({
+    this.subscription = this.bookService.getBooks().subscribe({
       next: (bookResponse) => {
         this.books = bookResponse;
         this.showFilterBooks = this.books;
       },
       error: (error) => (this.showErrorMessage = error),
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 
   toggleBookImage(): void {
