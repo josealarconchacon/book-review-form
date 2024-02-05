@@ -32,6 +32,7 @@ export class BooksComponent implements OnInit {
   constructor(private bookService: BookService) {}
 
   ngOnInit(): void {
+    // getBooks method from the bookService to retrieve a list of books and subscribe to handle the response from the getBooks
     this.bookService.getBooks().subscribe({
       next: (bookResponse) => {
         this.books = bookResponse;
