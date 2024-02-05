@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Book } from './book';
+import { BookService } from './book.service';
 
 @Component({
   selector: 'app-books',
@@ -13,7 +14,9 @@ export class BooksComponent implements OnInit {
   setImageWidth: number = 30;
   setImageMargin: number = 2;
   showImage: boolean = false;
+  showErrorMessage: string = '';
   showFilterBooks: Book[] = [];
+  books: Book[] = [];
 
   // setter and getter
   private _listFilter: string = '';
@@ -26,33 +29,16 @@ export class BooksComponent implements OnInit {
     this.showFilterBooks = this.performFilterForBooks(value);
   }
 
-  books: Book[] = [
-    {
-      bookId: 2,
-      bookName: 'The Metamorphosis',
-      boobCode: 'GTR-0098',
-      releaseDate: 'June 22, 2000',
-      description:
-        'For use in schools and libraries only. Writings by and about Kafka and textual notes accompany his translations of his early 20th-century work.',
-      price: 19.0,
-      rating: 3.9,
-      imageUrl: '../../assets/images/theMetamorphosis.jpeg',
-    },
-    {
-      bookId: 3,
-      bookName: 'Madame Bovary',
-      boobCode: 'TRR-012',
-      releaseDate: 'December 1, 2019',
-      description:
-        'Madame Bovary, originally published as Madame Bovary: Provincial Manners, is a novel by French writer Gustave Flaubert, published in 1857. The eponymous character lives beyond her means in order to escape the banalities and emptiness of provincial life.',
-      price: 21.99,
-      rating: 4.1,
-      imageUrl: '../../assets/images/madameBovary.jpeg',
-    },
-  ];
+  constructor(private bookService: BookService) {}
 
   ngOnInit(): void {
-    this.listFilter = 'The Metamorphosis';
+    this.bookService.getBooks().subscribe({
+      next: (bookResponse) => {
+        this.books = bookResponse;
+        this.showFilterBooks = this.books;
+      },
+      error: (error) => (this.showErrorMessage = error),
+    });
   }
 
   toggleBookImage(): void {
