@@ -4,7 +4,6 @@ import { BookService } from './book.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-books',
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css'],
 })
